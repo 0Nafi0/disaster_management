@@ -5,6 +5,15 @@ CREATE TABLE Disaster (
     location VARCHAR(255)
 );
 
+CREATE TABLE Victim (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    disaster_id INT,
+    camp_id INT,
+    FOREIGN KEY (disaster_id) REFERENCES Disaster(id),
+    FOREIGN KEY (camp_id) REFERENCES Relief_Camp(id)
+);
+
 CREATE TABLE Volunteer (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,

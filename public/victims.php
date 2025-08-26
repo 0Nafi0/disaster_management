@@ -4,7 +4,7 @@ require_once '../includes/db_connect.php';
 $sql = "SELECT v.id, v.name, d.name AS disaster_name, c.name AS camp_name
         FROM Victim v
         JOIN disaster d ON v.disaster_id = d.id
-        JOIN relief_camp c ON v.camp_id = c.id
+        JOIN Relief_Camp c ON v.camp_id = c.id
         ORDER BY v.id DESC";
 $result = $conn->query($sql);
 ?>

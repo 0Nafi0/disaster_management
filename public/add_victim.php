@@ -1,7 +1,7 @@
 <?php
 require_once '../includes/db_connect.php';
 $disasters = $conn->query("SELECT id, name FROM disaster");
-$camps = $conn->query("SELECT id, name FROM relief_camp");
+$camps = $conn->query("SELECT id, name FROM Relief_Camp");
 ?>
 <!DOCTYPE html>
 <html>
