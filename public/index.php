@@ -11,7 +11,10 @@ $stats_sql = "SELECT
     (SELECT COUNT(*) FROM Volunteer) as volunteer_count,
     (SELECT COUNT(*) FROM victim) as victim_count,
     (SELECT COUNT(DISTINCT skill) FROM Volunteer) as unique_skills,
-    (SELECT COUNT(*) FROM Disaster) as disaster_count";
+    (SELECT COUNT(*) FROM Disaster) as disaster_count,
+    (SELECT COUNT(*) FROM Resource) as resource_count,
+    (SELECT COUNT(*) FROM Resource WHERE quantity = 0) as out_of_stock,
+    (SELECT COUNT(*) FROM Resource WHERE quantity < 10 AND quantity > 0) as low_stock";
 $stats_result = $conn->query($stats_sql);
 $stats = $stats_result->fetch_assoc();
 
@@ -74,11 +77,15 @@ $skills_result = $conn->query($skills_sql);
                    class="bg-purple-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-purple-600">
                    + Add Relief Camp
                 </a>
+                <a href="add_resource.php" 
+                   class="bg-indigo-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-600">
+                   + Add Resource
+                </a>
             </div>
         </div>
 
         <!-- Statistics -->
-        <div class="grid grid-cols-5 gap-4 mb-8">
+        <div class="grid grid-cols-4 gap-4 mb-8">
             <div class="bg-red-100 p-4 rounded-lg">
                 <h3 class="text-lg font-semibold text-red-700">Active Disasters</h3>
                 <p class="text-2xl font-bold text-red-800"><?php echo $stats['disaster_count']; ?></p>
@@ -95,9 +102,25 @@ $skills_result = $conn->query($skills_sql);
                 <h3 class="text-lg font-semibold text-purple-700">Relief Camps</h3>
                 <p class="text-2xl font-bold text-purple-800"><?php echo $stats['camp_count']; ?></p>
             </div>
+        </div>
+
+        <!-- Additional Stats -->
+        <div class="grid grid-cols-4 gap-4 mb-8">
             <div class="bg-green-100 p-4 rounded-lg">
                 <h3 class="text-lg font-semibold text-green-700">Unique Skills</h3>
                 <p class="text-2xl font-bold text-green-800"><?php echo $stats['unique_skills']; ?></p>
+            </div>
+            <div class="bg-indigo-100 p-4 rounded-lg">
+                <h3 class="text-lg font-semibold text-indigo-700">Total Resources</h3>
+                <p class="text-2xl font-bold text-indigo-800"><?php echo $stats['resource_count']; ?></p>
+            </div>
+            <div class="bg-red-50 p-4 rounded-lg">
+                <h3 class="text-lg font-semibold text-red-700">Out of Stock</h3>
+                <p class="text-2xl font-bold text-red-800"><?php echo $stats['out_of_stock']; ?></p>
+            </div>
+            <div class="bg-yellow-50 p-4 rounded-lg">
+                <h3 class="text-lg font-semibold text-yellow-700">Low Stock</h3>
+                <p class="text-2xl font-bold text-yellow-800"><?php echo $stats['low_stock']; ?></p>
             </div>
         </div>
 
@@ -155,6 +178,7 @@ $skills_result = $conn->query($skills_sql);
             <a href="victims.php" class="font-semibold text-gray-600 hover:text-blue-600">Victims</a>
             <a href="volunteers.php" class="font-semibold text-gray-600 hover:text-blue-600">Volunteers</a>
             <a href="relief_camps.php" class="font-semibold text-gray-600 hover:text-blue-600">Relief Camps</a>
+            <a href="resources.php" class="font-semibold text-gray-600 hover:text-blue-600">Resources</a>
         </div>
 
         <!-- Disasters Table -->

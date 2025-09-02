@@ -24,8 +24,9 @@ CREATE TABLE Volunteer (
 
 CREATE TABLE Resource (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL,
-    unit VARCHAR(50) 
+    name VARCHAR(100) NOT NULL,
+    quantity INT,
+    unit VARCHAR(20) 
 );
 
 
