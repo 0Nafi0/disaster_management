@@ -12,8 +12,14 @@ $disasters = $conn->query("SELECT id, name FROM disaster");
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100">
-    <div class="container mx-auto mt-10 p-8 bg-white rounded-lg shadow-md">
-        <h1 class="text-2xl font-bold mb-6">Add Relief Camp</h1>
+    <div class="container mx-auto mt-10">
+        <div class="flex justify-end mb-4">
+            <a href="index.php" class="bg-gray-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-600">
+                🏠 Home
+            </a>
+        </div>
+        <div class="p-8 bg-white rounded-lg shadow-md">
+            <h1 class="text-2xl font-bold mb-6">Add Relief Camp</h1>
         <form action="process_add_relief_camp.php" method="POST" class="space-y-4">
             <div>
                 <label class="block">Camp Name</label>

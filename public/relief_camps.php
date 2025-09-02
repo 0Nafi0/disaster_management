@@ -17,7 +17,25 @@ $result = $conn->query($sql);
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100">
-    <div class="container mx-auto mt-10 p-8 bg-white rounded-lg shadow-md">
+    <div class="container mx-auto mt-10">
+        <div class="flex justify-end mb-4">
+            <a href="index.php" class="bg-gray-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-600">
+                🏠 Home
+            </a>
+        </div>
+        <div class="p-8 bg-white rounded-lg shadow-md">
+        <?php if (isset($_GET['msg'])): ?>
+            <?php 
+            $isError = strpos(strtolower($_GET['msg']), 'error') !== false || 
+                      strpos(strtolower($_GET['msg']), 'cannot') !== false;
+            $class = $isError ? 
+                "bg-red-100 border border-red-400 text-red-700" : 
+                "bg-green-100 border border-green-400 text-green-700";
+            ?>
+            <div class="<?php echo $class; ?> px-4 py-3 rounded relative mb-4">
+                <?php echo htmlspecialchars($_GET['msg']); ?>
+            </div>
+        <?php endif; ?>
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-3xl font-bold">Relief Camps</h1>
             <a href="add_relief_camp.php" class="bg-green-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-600">
@@ -42,8 +60,8 @@ $result = $conn->query($sql);
                             <td class="py-3 px-4"><?php echo htmlspecialchars($row['capacity']); ?></td>
                             <td class="py-3 px-4"><?php echo htmlspecialchars($row['disaster_name']); ?></td>
                             <td class="py-3 px-4">
-                                <a href="#" class="text-blue-500 hover:text-blue-700">Edit</a>
-                                <a href="#" class="text-red-500 hover:text-red-700 ml-4">Delete</a>
+                                <a href="edit_relief_camp.php?id=<?php echo $row['id']; ?>" class="text-blue-500 hover:text-blue-700">Edit</a>
+                                <a href="delete_relief_camp.php?id=<?php echo $row['id']; ?>" class="text-red-500 hover:text-red-700 ml-4" onclick="return confirm('Are you sure you want to delete this camp?')">Delete</a>
                             </td>
                         </tr>
                     <?php endwhile; ?>
