@@ -16,8 +16,10 @@ CREATE TABLE Victim (
 
 CREATE TABLE Volunteer (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL,
-    skill VARCHAR(255)
+    name VARCHAR(100),
+    skill VARCHAR(100),
+    camp_id INT,
+    FOREIGN KEY (camp_id) REFERENCES Relief_Camp(id)
 );
 
 CREATE TABLE Resource (
