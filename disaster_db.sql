@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 02, 2025 at 07:34 PM
+-- Generation Time: Sep 09, 2025 at 11:50 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -151,6 +151,20 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `volunteering`
+--
+
+CREATE TABLE `volunteering` (
+  `id` int(11) NOT NULL,
+  `volunteer_id` int(11) NOT NULL,
+  `camp_id` int(11) NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `volunteer_assignment_log`
 --
 
@@ -202,6 +216,14 @@ ALTER TABLE `volunteer`
   ADD KEY `camp_id` (`camp_id`);
 
 --
+-- Indexes for table `volunteering`
+--
+ALTER TABLE `volunteering`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `volunteer_id` (`volunteer_id`),
+  ADD KEY `camp_id` (`camp_id`);
+
+--
 -- Indexes for table `volunteer_assignment_log`
 --
 ALTER TABLE `volunteer_assignment_log`
@@ -243,6 +265,12 @@ ALTER TABLE `volunteer`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `volunteering`
+--
+ALTER TABLE `volunteering`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `volunteer_assignment_log`
 --
 ALTER TABLE `volunteer_assignment_log`
@@ -270,6 +298,13 @@ ALTER TABLE `victim`
 --
 ALTER TABLE `volunteer`
   ADD CONSTRAINT `volunteer_ibfk_1` FOREIGN KEY (`camp_id`) REFERENCES `relief_camp` (`id`);
+
+--
+-- Constraints for table `volunteering`
+--
+ALTER TABLE `volunteering`
+  ADD CONSTRAINT `volunteering_ibfk_1` FOREIGN KEY (`volunteer_id`) REFERENCES `volunteer` (`id`),
+  ADD CONSTRAINT `volunteering_ibfk_2` FOREIGN KEY (`camp_id`) REFERENCES `relief_camp` (`id`);
 
 --
 -- Constraints for table `volunteer_assignment_log`
