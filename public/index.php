@@ -183,6 +183,7 @@ $skills_result = $conn->query($skills_sql);
             <a href="assign_help.php" class="font-semibold text-gray-600 hover:text-blue-600">Assign Help</a>
             <a href="assign_volunteering.php" class="font-semibold text-gray-600 hover:text-blue-600">Volunteer Assignments</a>
             <a href="manage_victim_needs.php" class="font-semibold text-gray-600 hover:text-blue-600">Victim Needs</a>
+            <a href="manage_camp_disasters.php" class="font-semibold text-gray-600 hover:text-blue-600">Camp Disaster Records</a>
         </div>
 
         <!-- Disasters Table -->

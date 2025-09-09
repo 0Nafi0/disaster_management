@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 09, 2025 at 04:24 PM
+-- Generation Time: Sep 09, 2025 at 05:29 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -64,6 +64,50 @@ INSERT INTO `disaster` (`id`, `name`, `type`, `location`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `needs`
+--
+
+CREATE TABLE `needs` (
+  `id` int(11) NOT NULL,
+  `victim_id` int(11) NOT NULL,
+  `resource_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `fulfilled_quantity` int(11) DEFAULT 0,
+  `status` enum('pending','partially_fulfilled','fulfilled') DEFAULT 'pending',
+  `request_date` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `needs`
+--
+
+INSERT INTO `needs` (`id`, `victim_id`, `resource_id`, `quantity`, `fulfilled_quantity`, `status`, `request_date`) VALUES
+(1, 1, 1, 5, 3, 'partially_fulfilled', '2025-09-09 15:10:26');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `records`
+--
+
+CREATE TABLE `records` (
+  `id` int(11) NOT NULL,
+  `camp_id` int(11) NOT NULL,
+  `disaster_id` int(11) NOT NULL,
+  `available_resources` text DEFAULT NULL,
+  `assignment_date` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `records`
+--
+
+INSERT INTO `records` (`id`, `camp_id`, `disaster_id`, `available_resources`, `assignment_date`) VALUES
+(1, 4, 8, 'Napa medicine - 200pc\r\nSaline - 20000pc', '2025-09-09 15:28:45');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `relief_camp`
 --
 
@@ -99,7 +143,7 @@ CREATE TABLE `resource` (
 --
 
 INSERT INTO `resource` (`id`, `name`, `quantity`, `unit`) VALUES
-(1, 'Rice', 10, 'kg');
+(1, 'Rice', 7, 'kg');
 
 -- --------------------------------------------------------
 
@@ -183,6 +227,13 @@ CREATE TABLE `volunteering` (
   `end_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `volunteering`
+--
+
+INSERT INTO `volunteering` (`id`, `volunteer_id`, `camp_id`, `start_date`, `end_date`) VALUES
+(1, 3, 4, '2025-09-12', '2025-09-26');
+
 -- --------------------------------------------------------
 
 --
@@ -230,6 +281,22 @@ ALTER TABLE `camp_resource`
 --
 ALTER TABLE `disaster`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `needs`
+--
+ALTER TABLE `needs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `victim_id` (`victim_id`),
+  ADD KEY `resource_id` (`resource_id`);
+
+--
+-- Indexes for table `records`
+--
+ALTER TABLE `records`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_record` (`camp_id`,`disaster_id`),
+  ADD KEY `disaster_id` (`disaster_id`);
 
 --
 -- Indexes for table `relief_camp`
@@ -299,6 +366,18 @@ ALTER TABLE `disaster`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT for table `needs`
+--
+ALTER TABLE `needs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `records`
+--
+ALTER TABLE `records`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `relief_camp`
 --
 ALTER TABLE `relief_camp`
@@ -326,7 +405,7 @@ ALTER TABLE `volunteer`
 -- AUTO_INCREMENT for table `volunteering`
 --
 ALTER TABLE `volunteering`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `volunteer_assignment_log`
@@ -338,7 +417,7 @@ ALTER TABLE `volunteer_assignment_log`
 -- AUTO_INCREMENT for table `volunteer_victim_help`
 --
 ALTER TABLE `volunteer_victim_help`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
@@ -350,6 +429,20 @@ ALTER TABLE `volunteer_victim_help`
 ALTER TABLE `camp_resource`
   ADD CONSTRAINT `camp_resource_ibfk_1` FOREIGN KEY (`camp_id`) REFERENCES `relief_camp` (`id`),
   ADD CONSTRAINT `camp_resource_ibfk_2` FOREIGN KEY (`resource_id`) REFERENCES `resource` (`id`);
+
+--
+-- Constraints for table `needs`
+--
+ALTER TABLE `needs`
+  ADD CONSTRAINT `needs_ibfk_1` FOREIGN KEY (`victim_id`) REFERENCES `victim` (`id`),
+  ADD CONSTRAINT `needs_ibfk_2` FOREIGN KEY (`resource_id`) REFERENCES `resource` (`id`);
+
+--
+-- Constraints for table `records`
+--
+ALTER TABLE `records`
+  ADD CONSTRAINT `records_ibfk_1` FOREIGN KEY (`camp_id`) REFERENCES `relief_camp` (`id`),
+  ADD CONSTRAINT `records_ibfk_2` FOREIGN KEY (`disaster_id`) REFERENCES `disaster` (`id`);
 
 --
 -- Constraints for table `relief_camp`
