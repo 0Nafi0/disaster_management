@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 09, 2025 at 04:09 PM
+-- Generation Time: Sep 09, 2025 at 04:24 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -198,6 +198,21 @@ CREATE TABLE `volunteer_assignment_log` (
   `change_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `volunteer_victim_help`
+--
+
+CREATE TABLE `volunteer_victim_help` (
+  `id` int(11) NOT NULL,
+  `volunteer_id` int(11) NOT NULL,
+  `victim_id` int(11) NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date DEFAULT NULL,
+  `help_type` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Indexes for dumped tables
 --
@@ -260,6 +275,14 @@ ALTER TABLE `volunteer_assignment_log`
   ADD KEY `volunteer_id` (`volunteer_id`);
 
 --
+-- Indexes for table `volunteer_victim_help`
+--
+ALTER TABLE `volunteer_victim_help`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `volunteer_id` (`volunteer_id`),
+  ADD KEY `victim_id` (`victim_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -312,6 +335,12 @@ ALTER TABLE `volunteer_assignment_log`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `volunteer_victim_help`
+--
+ALTER TABLE `volunteer_victim_help`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -353,6 +382,13 @@ ALTER TABLE `volunteering`
 --
 ALTER TABLE `volunteer_assignment_log`
   ADD CONSTRAINT `volunteer_assignment_log_ibfk_1` FOREIGN KEY (`volunteer_id`) REFERENCES `volunteer` (`id`);
+
+--
+-- Constraints for table `volunteer_victim_help`
+--
+ALTER TABLE `volunteer_victim_help`
+  ADD CONSTRAINT `volunteer_victim_help_ibfk_1` FOREIGN KEY (`volunteer_id`) REFERENCES `volunteer` (`id`),
+  ADD CONSTRAINT `volunteer_victim_help_ibfk_2` FOREIGN KEY (`victim_id`) REFERENCES `victim` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

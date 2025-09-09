@@ -180,6 +180,7 @@ $skills_result = $conn->query($skills_sql);
             <a href="relief_camps.php" class="font-semibold text-gray-600 hover:text-blue-600">Relief Camps</a>
             <a href="resources.php" class="font-semibold text-gray-600 hover:text-blue-600">Resources</a>
             <a href="assign_resource.php" class="font-semibold text-gray-600 hover:text-blue-600">Assign Resources</a>
+            <a href="assign_help.php" class="font-semibold text-gray-600 hover:text-blue-600">Assign Help</a>
         </div>
 
         <!-- Disasters Table -->
