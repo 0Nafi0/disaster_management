@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 09, 2025 at 05:29 PM
+-- Generation Time: Sep 09, 2025 at 09:28 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -124,6 +124,34 @@ CREATE TABLE `relief_camp` (
 
 INSERT INTO `relief_camp` (`id`, `name`, `capacity`, `disaster_id`) VALUES
 (4, 'Noakhali Camp', 2000, 8);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `report`
+--
+
+CREATE TABLE `report` (
+  `id` int(11) NOT NULL,
+  `type` varchar(100) NOT NULL,
+  `location` varchar(255) NOT NULL,
+  `disaster_id` int(11) NOT NULL,
+  `report_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` enum('pending','in_progress','completed') NOT NULL DEFAULT 'pending'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reports`
+--
+
+CREATE TABLE `reports` (
+  `id` int(11) NOT NULL,
+  `report_id` int(11) NOT NULL,
+  `volunteer_id` int(11) NOT NULL,
+  `reports_date` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -306,6 +334,21 @@ ALTER TABLE `relief_camp`
   ADD KEY `disaster_id` (`disaster_id`);
 
 --
+-- Indexes for table `report`
+--
+ALTER TABLE `report`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `disaster_id` (`disaster_id`);
+
+--
+-- Indexes for table `reports`
+--
+ALTER TABLE `reports`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `report_id` (`report_id`),
+  ADD KEY `volunteer_id` (`volunteer_id`);
+
+--
 -- Indexes for table `resource`
 --
 ALTER TABLE `resource`
@@ -384,6 +427,18 @@ ALTER TABLE `relief_camp`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `report`
+--
+ALTER TABLE `report`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `reports`
+--
+ALTER TABLE `reports`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `resource`
 --
 ALTER TABLE `resource`
@@ -449,6 +504,19 @@ ALTER TABLE `records`
 --
 ALTER TABLE `relief_camp`
   ADD CONSTRAINT `relief_camp_ibfk_1` FOREIGN KEY (`disaster_id`) REFERENCES `disaster` (`id`);
+
+--
+-- Constraints for table `report`
+--
+ALTER TABLE `report`
+  ADD CONSTRAINT `report_ibfk_1` FOREIGN KEY (`disaster_id`) REFERENCES `disaster` (`id`);
+
+--
+-- Constraints for table `reports`
+--
+ALTER TABLE `reports`
+  ADD CONSTRAINT `reports_ibfk_1` FOREIGN KEY (`report_id`) REFERENCES `report` (`id`),
+  ADD CONSTRAINT `reports_ibfk_2` FOREIGN KEY (`volunteer_id`) REFERENCES `volunteer` (`id`);
 
 --
 -- Constraints for table `victim`
