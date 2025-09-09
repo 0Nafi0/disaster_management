@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 09, 2025 at 11:50 AM
+-- Generation Time: Sep 09, 2025 at 04:09 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,26 @@ SET time_zone = "+00:00";
 --
 -- Database: `disaster_db`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `camp_resource`
+--
+
+CREATE TABLE `camp_resource` (
+  `id` int(11) NOT NULL,
+  `camp_id` int(11) NOT NULL,
+  `resource_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `camp_resource`
+--
+
+INSERT INTO `camp_resource` (`id`, `camp_id`, `resource_id`, `quantity`) VALUES
+(1, 4, 1, 10);
 
 -- --------------------------------------------------------
 
@@ -79,7 +99,7 @@ CREATE TABLE `resource` (
 --
 
 INSERT INTO `resource` (`id`, `name`, `quantity`, `unit`) VALUES
-(1, 'Rice', 20, 'kg');
+(1, 'Rice', 10, 'kg');
 
 -- --------------------------------------------------------
 
@@ -120,7 +140,8 @@ CREATE TABLE `volunteer` (
 
 INSERT INTO `volunteer` (`id`, `name`, `skill`, `camp_id`) VALUES
 (1, 'Nafi', 'Medical', 4),
-(2, 'Batman', 'Medical', 4);
+(2, 'Batman', 'Medical', 4),
+(3, 'Tayeb', 'nine', 4);
 
 --
 -- Triggers `volunteer`
@@ -182,6 +203,14 @@ CREATE TABLE `volunteer_assignment_log` (
 --
 
 --
+-- Indexes for table `camp_resource`
+--
+ALTER TABLE `camp_resource`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `camp_id` (`camp_id`),
+  ADD KEY `resource_id` (`resource_id`);
+
+--
 -- Indexes for table `disaster`
 --
 ALTER TABLE `disaster`
@@ -235,6 +264,12 @@ ALTER TABLE `volunteer_assignment_log`
 --
 
 --
+-- AUTO_INCREMENT for table `camp_resource`
+--
+ALTER TABLE `camp_resource`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `disaster`
 --
 ALTER TABLE `disaster`
@@ -262,7 +297,7 @@ ALTER TABLE `victim`
 -- AUTO_INCREMENT for table `volunteer`
 --
 ALTER TABLE `volunteer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `volunteering`
@@ -279,6 +314,13 @@ ALTER TABLE `volunteer_assignment_log`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `camp_resource`
+--
+ALTER TABLE `camp_resource`
+  ADD CONSTRAINT `camp_resource_ibfk_1` FOREIGN KEY (`camp_id`) REFERENCES `relief_camp` (`id`),
+  ADD CONSTRAINT `camp_resource_ibfk_2` FOREIGN KEY (`resource_id`) REFERENCES `resource` (`id`);
 
 --
 -- Constraints for table `relief_camp`
